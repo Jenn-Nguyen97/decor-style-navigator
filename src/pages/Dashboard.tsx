@@ -233,7 +233,7 @@ const Dashboard = () => {
                       <div className="h-48 overflow-hidden">
                         <img
                           src={upload.imageUrl}
-                          alt={`Room upload ${uploa  d.id}`}
+                          alt={`Room upload ${upload.id}`}
                           className="w-full h-full object-cover"
                         />
                       </div>
