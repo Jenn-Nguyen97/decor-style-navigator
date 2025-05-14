@@ -17,6 +17,7 @@ import Gallery from "./pages/Gallery";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import AIDesign from "./pages/AIDesign";
+import RoomUpload from "./pages/RoomUpload";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/ai-design" element={<AIDesign />} />
+                <Route path="/room-upload" element={<RoomUpload />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

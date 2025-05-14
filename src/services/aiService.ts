@@ -103,7 +103,7 @@ export const analyzeRoomImage = async (imageFile: File): Promise<Room> => {
         id: Math.random().toString(36).substr(2, 9),
         imageUrl: URL.createObjectURL(imageFile),
         style: ['modern', 'traditional', 'minimalist', 'scandinavian'][Math.floor(Math.random() * 4)],
-        dominantColors: ['#E8DFD0', '#9E9A94', '#C9846B'][Math.floor(Math.random() * 3)],
+        dominantColors: ['#E8DFD0', '#9E9A94', '#C9846B'].map(color => color), // Fixed: Convert to array
         size: ['small', 'medium', 'large'][Math.floor(Math.random() * 3)] as 'small' | 'medium' | 'large',
         type: ['living', 'bedroom', 'dining', 'office'][Math.floor(Math.random() * 4)] as 'living' | 'bedroom' | 'dining' | 'office'
       });

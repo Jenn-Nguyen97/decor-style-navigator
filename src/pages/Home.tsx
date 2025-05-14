@@ -7,7 +7,6 @@ import {
   ArrowRight, 
   User, 
   Heart, 
-  FileText, 
   Search 
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -47,36 +46,6 @@ const decorStyles = [
   }
 ];
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Creating the Perfect Vintage Living Room',
-    excerpt: 'Learn how to blend antique pieces with modern comfort for a timeless living space.',
-    image: 'https://images.unsplash.com/photo-1572373548732-1686416eeb55',
-    date: 'May 10, 2025',
-    author: 'Emma Davis',
-    category: 'Interior Design'
-  },
-  {
-    id: 2,
-    title: 'The Art of Mixing Patterns in Bohemian Spaces',
-    excerpt: 'Discover how to combine diverse patterns and textures for a harmonious bohemian look.',
-    image: 'https://images.unsplash.com/photo-1617104678098-de229db51175',
-    date: 'May 5, 2025',
-    author: 'Sophie Miller',
-    category: 'Style Tips'
-  },
-  {
-    id: 3,
-    title: 'Minimalist Principles for a Calmer Home',
-    excerpt: 'Explore how embracing minimalism can transform your living environment and mindset.',
-    image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
-    date: 'April 28, 2025',
-    author: 'James Wilson',
-    category: 'Minimalism'
-  }
-];
-
 const Home = () => {
   const { user, isAuthenticated } = useAuth();
   const [featuredItems, setFeaturedItems] = useState([]);
@@ -97,7 +66,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section with more vintage styling */}
       <section className="relative h-[80vh] flex items-center">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -105,54 +74,54 @@ const Home = () => {
             backgroundImage: "url('https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e')",
           }}
         >
-          <div className="absolute inset-0 bg-dark-wood/30"></div>
+          <div className="absolute inset-0 bg-dark-wood/40 backdrop-sepia"></div>
         </div>
         <div className="container mx-auto px-4 z-10 text-center md:text-left">
           <div className="max-w-xl md:ml-12 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4">
+            <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4 drop-shadow-lg">
               Discover Your Perfect Decor Style
             </h1>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl text-white/90 mb-8 italic">
               Personalized recommendations to match your taste and living space.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button size="lg" asChild>
+              <Button size="lg" className="bg-terracotta hover:bg-terracotta/90 text-white" asChild>
                 <Link to="/style-test">Take Style Test</Link>
               </Button>
               <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20" asChild>
-                <Link to="/gallery">Explore Gallery</Link>
+                <Link to="/room-upload">Upload Your Space</Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* How It Works - with vintage styling */}
       <section className="py-16 bg-warm-cream">
         <div className="container mx-auto px-4">
-          <h2 className="section-title text-center mx-auto">How It Works</h2>
+          <h2 className="section-title text-center mx-auto font-serif text-dark-wood">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center card-hover">
-              <div className="bg-secondary/10 p-4 rounded-full mb-4">
-                <User className="h-8 w-8 text-secondary" />
+            <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center card-hover border border-soft-beige/50">
+              <div className="bg-soft-beige p-4 rounded-full mb-4">
+                <User className="h-8 w-8 text-terracotta" />
               </div>
               <h3 className="text-xl font-serif font-semibold mb-2">Discover Your Style</h3>
               <p className="text-warm-gray">
                 Take our personality test to find decorating styles that match your preferences and lifestyle.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center card-hover">
-              <div className="bg-accent/10 p-4 rounded-full mb-4">
-                <Image className="h-8 w-8 text-accent" />
+            <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center card-hover border border-soft-beige/50">
+              <div className="bg-soft-beige p-4 rounded-full mb-4">
+                <Image className="h-8 w-8 text-terracotta" />
               </div>
               <h3 className="text-xl font-serif font-semibold mb-2">Upload Your Space</h3>
               <p className="text-warm-gray">
                 Share photos of your room to receive personalized decor recommendations.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center card-hover">
-              <div className="bg-primary/10 p-4 rounded-full mb-4">
-                <Heart className="h-8 w-8 text-primary" />
+            <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center card-hover border border-soft-beige/50">
+              <div className="bg-soft-beige p-4 rounded-full mb-4">
+                <Heart className="h-8 w-8 text-terracotta" />
               </div>
               <h3 className="text-xl font-serif font-semibold mb-2">Find Perfect Matches</h3>
               <p className="text-warm-gray">
@@ -163,12 +132,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Discover Styles Section */}
+      {/* Discover Styles Section - with vintage styling */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <h2 className="section-title mb-4 md:mb-0">Discover Decor Styles</h2>
-            <Button variant="ghost" className="flex items-center" asChild>
+            <h2 className="section-title mb-4 md:mb-0 font-serif text-dark-wood">Discover Decor Styles</h2>
+            <Button variant="ghost" className="flex items-center text-terracotta hover:text-terracotta/80" asChild>
               <Link to="/gallery">
                 View All Styles <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -177,11 +146,11 @@ const Home = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {decorStyles.map((style) => (
-              <div key={style.id} className="group relative h-64 overflow-hidden rounded-lg card-hover">
+              <div key={style.id} className="group relative h-64 overflow-hidden rounded-lg card-hover border border-soft-beige">
                 <img
                   src={style.image}
                   alt={style.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 sepia-[0.2]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-wood/80 to-transparent flex items-end">
                   <div className="p-6">
@@ -200,9 +169,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Call to Action */}
+      {/* Call to Action - with vintage styling */}
       {!isAuthenticated && (
-        <section className="py-16 bg-accent text-white">
+        <section className="py-16 bg-terracotta text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
               Ready to transform your living space?
@@ -211,55 +180,17 @@ const Home = () => {
               Create an account to access personalized recommendations, upload your room photos, 
               and get AI-powered decor suggestions.
             </p>
-            <Button size="lg" className="bg-white text-accent hover:bg-white/90" asChild>
-              <Link to="/register">Create Free Account</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-terracotta hover:bg-white/90" asChild>
+                <Link to="/register">Create Free Account</Link>
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10" asChild>
+                <Link to="/room-upload">Try Room Upload</Link>
+              </Button>
+            </div>
           </div>
         </section>
       )}
-
-      {/* Featured Blog Posts */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <h2 className="section-title mb-4 md:mb-0">Latest Inspiration</h2>
-            <Button variant="ghost" className="flex items-center" asChild>
-              <Link to="/blog">
-                View All Articles <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <article key={post.id} className="bg-background rounded-lg overflow-hidden card-hover">
-                <Link to={`/blog/${post.id}`}>
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-56 object-cover"
-                  />
-                </Link>
-                <div className="p-6">
-                  <div className="flex items-center text-xs text-warm-gray mb-2">
-                    <span>{post.date}</span>
-                    <span className="mx-2">•</span>
-                    <span>{post.category}</span>
-                  </div>
-                  <h3 className="text-xl font-serif font-semibold mb-2">
-                    <Link to={`/blog/${post.id}`}>{post.title}</Link>
-                  </h3>
-                  <p className="text-warm-gray mb-4">{post.excerpt}</p>
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-full bg-soft-beige mr-3"></div>
-                    <span className="text-sm">{post.author}</span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

@@ -11,7 +11,8 @@ import {
   Settings, 
   Heart, 
   FileText, 
-  Home 
+  Home, 
+  Image 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -46,41 +47,41 @@ export default function Navbar() {
         <div className="hidden md:flex items-center space-x-6">
           <Link
             to="/"
-            className={`font-medium hover:text-accent transition-colors ${
-              isActive('/') ? 'text-accent' : 'text-foreground'
+            className={`font-medium hover:text-terracotta transition-colors ${
+              isActive('/') ? 'text-terracotta' : 'text-foreground'
             }`}
           >
             Home
           </Link>
           <Link
-            to="/blog"
-            className={`font-medium hover:text-accent transition-colors ${
-              isActive('/blog') ? 'text-accent' : 'text-foreground'
-            }`}
-          >
-            Blog
-          </Link>
-          <Link
             to="/gallery"
-            className={`font-medium hover:text-accent transition-colors ${
-              isActive('/gallery') ? 'text-accent' : 'text-foreground'
+            className={`font-medium hover:text-terracotta transition-colors ${
+              isActive('/gallery') ? 'text-terracotta' : 'text-foreground'
             }`}
           >
             Gallery
           </Link>
           <Link
             to="/style-test"
-            className={`font-medium hover:text-accent transition-colors ${
-              isActive('/style-test') ? 'text-accent' : 'text-foreground'
+            className={`font-medium hover:text-terracotta transition-colors ${
+              isActive('/style-test') ? 'text-terracotta' : 'text-foreground'
             }`}
           >
             Style Test
           </Link>
+          <Link
+            to="/room-upload"
+            className={`font-medium hover:text-terracotta transition-colors ${
+              isActive('/room-upload') ? 'text-terracotta' : 'text-foreground'
+            }`}
+          >
+            Upload Room
+          </Link>
           {hasRole(['admin']) && (
             <Link
               to="/admin"
-              className={`font-medium hover:text-accent transition-colors ${
-                isActive('/admin') ? 'text-accent' : 'text-foreground'
+              className={`font-medium hover:text-terracotta transition-colors ${
+                isActive('/admin') ? 'text-terracotta' : 'text-foreground'
               }`}
             >
               Admin
@@ -109,7 +110,7 @@ export default function Navbar() {
                   )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 vintage-card">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -125,9 +126,9 @@ export default function Navbar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/uploads" className="flex items-center cursor-pointer">
-                    <FileText className="mr-2 h-4 w-4" />
-                    <span>My Uploads</span>
+                  <Link to="/room-upload" className="flex items-center cursor-pointer">
+                    <Image className="mr-2 h-4 w-4" />
+                    <span>Upload Room</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -145,10 +146,10 @@ export default function Navbar() {
             </DropdownMenu>
           ) : (
             <div className="flex space-x-2">
-              <Button variant="outline" asChild>
+              <Button variant="outline" className="border-terracotta text-terracotta hover:bg-terracotta/10" asChild>
                 <Link to="/login">Log In</Link>
               </Button>
-              <Button asChild>
+              <Button className="bg-terracotta hover:bg-terracotta/90 text-white" asChild>
                 <Link to="/register">Sign Up</Link>
               </Button>
             </div>
@@ -169,36 +170,36 @@ export default function Navbar() {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link
-              to="/blog"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Blog
-            </Link>
-            <Link
               to="/gallery"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
               onClick={() => setMobileMenuOpen(false)}
             >
               Gallery
             </Link>
             <Link
               to="/style-test"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
               onClick={() => setMobileMenuOpen(false)}
             >
               Style Test
             </Link>
+            <Link
+              to="/room-upload"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Upload Room
+            </Link>
             {hasRole(['admin']) && (
               <Link
                 to="/admin"
-                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Admin
@@ -208,14 +209,14 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Sign Up
@@ -225,7 +226,7 @@ export default function Navbar() {
               <>
                 <Link
                   to="/dashboard"
-                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-white"
+                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Dashboard
@@ -235,7 +236,7 @@ export default function Navbar() {
                     logout();
                     setMobileMenuOpen(false);
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-accent hover:text-white"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-soft-beige"
                 >
                   Log Out
                 </button>
