@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, Image as ImageIcon } from 'lucide-react';
@@ -10,7 +9,6 @@ import { analyzeRoomImage, getDecorRecommendations, DecorItem, AIRecommendation 
 import PageHeader from '@/components/common/PageHeader';
 
 const RoomUpload = () => {
-  const { isAuthenticated } = useAuth();
   const [isUploading, setIsUploading] = useState(false);
   const [roomImage, setRoomImage] = useState<{ file: File; preview: string } | null>(null);
   const [selectedDecorItem, setSelectedDecorItem] = useState<DecorItem | null>(null);
@@ -94,219 +92,205 @@ const RoomUpload = () => {
           </CardHeader>
           
           <CardContent className="pt-6">
-            {!isAuthenticated ? (
-              <div className="text-center p-8">
-                <h3 className="text-xl font-serif mb-4">Please Log In to Use This Feature</h3>
-                <p className="mb-6 text-warm-gray">
-                  You need to be logged in to upload room images and get personalized recommendations.
+            {step === 'upload' && (
+              <div className="text-center">
+                <div 
+                  className="border-2 border-dashed border-soft-beige rounded-lg p-8 mb-6 cursor-pointer hover:bg-soft-beige/20 transition-colors"
+                  onClick={() => document.getElementById('room-upload')?.click()}
+                >
+                  <Upload className="mx-auto h-12 w-12 text-warm-gray mb-4" />
+                  <h3 className="text-lg font-serif mb-2">Upload Room Image</h3>
+                  <p className="text-warm-gray mb-4">
+                    Upload a photo of your room to get personalized decor recommendations
+                  </p>
+                  <p className="text-xs text-warm-gray">
+                    Supports JPG or PNG files
+                  </p>
+                  <input
+                    type="file"
+                    id="room-upload"
+                    accept="image/jpeg,image/png"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                    disabled={isUploading}
+                  />
+                </div>
+                <p className="text-center text-warm-gray italic">
+                  Our AI will analyze your room's style, colors, and layout to suggest the perfect decor pieces.
                 </p>
-                <Button asChild>
-                  <Link to="/login">Log In Now</Link>
-                </Button>
               </div>
-            ) : (
-              <>
-                {step === 'upload' && (
-                  <div className="text-center">
-                    <div 
-                      className="border-2 border-dashed border-soft-beige rounded-lg p-8 mb-6 cursor-pointer hover:bg-soft-beige/20 transition-colors"
-                      onClick={() => document.getElementById('room-upload')?.click()}
-                    >
-                      <Upload className="mx-auto h-12 w-12 text-warm-gray mb-4" />
-                      <h3 className="text-lg font-serif mb-2">Upload Room Image</h3>
-                      <p className="text-warm-gray mb-4">
-                        Upload a photo of your room to get personalized decor recommendations
-                      </p>
-                      <p className="text-xs text-warm-gray">
-                        Supports JPG or PNG files
-                      </p>
-                      <input
-                        type="file"
-                        id="room-upload"
-                        accept="image/jpeg,image/png"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                        disabled={isUploading}
+            )}
+            
+            {step === 'select' && roomImage && (
+              <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div>
+                    <h3 className="text-lg font-serif mb-4">Your Room</h3>
+                    <div className="aspect-video rounded-lg overflow-hidden">
+                      <img 
+                        src={roomImage.preview} 
+                        alt="Your room" 
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <p className="text-center text-warm-gray italic">
-                      Our AI will analyze your room's style, colors, and layout to suggest the perfect decor pieces.
-                    </p>
                   </div>
-                )}
-                
-                {step === 'select' && roomImage && (
                   <div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div>
-                        <h3 className="text-lg font-serif mb-4">Your Room</h3>
-                        <div className="aspect-video rounded-lg overflow-hidden">
-                          <img 
-                            src={roomImage.preview} 
-                            alt="Your room" 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
+                    <h3 className="text-lg font-serif mb-4">Select a Decor Item</h3>
+                    {decorItems.length === 0 ? (
+                      <div className="h-full flex items-center justify-center">
+                        <p>Loading decor items...</p>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-serif mb-4">Select a Decor Item</h3>
-                        {decorItems.length === 0 ? (
-                          <div className="h-full flex items-center justify-center">
-                            <p>Loading decor items...</p>
-                          </div>
-                        ) : (
-                          <div className="overflow-y-auto max-h-80 pr-2">
-                            {decorItems.map(item => (
-                              <div 
-                                key={item.id}
-                                className={`flex items-center p-3 rounded-md mb-2 cursor-pointer transition-all ${
-                                  selectedDecorItem?.id === item.id 
-                                    ? 'bg-accent/10 border border-accent' 
-                                    : 'hover:bg-soft-beige/50 border border-transparent'
-                                }`}
-                                onClick={() => handleSelectItem(item)}
-                              >
-                                <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden mr-3">
-                                  <img 
-                                    src={item.imageUrl} 
-                                    alt={item.name} 
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <div>
-                                  <h4 className="font-medium">{item.name}</h4>
-                                  <p className="text-xs text-warm-gray">
-                                    Style: {item.styles.join(', ')}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <Button variant="outline" onClick={handleReset}>
-                        Back
-                      </Button>
-                      <Button 
-                        onClick={handleCheckCompatibility} 
-                        disabled={!selectedDecorItem}
-                      >
-                        Check Compatibility
-                      </Button>
-                    </div>
-                  </div>
-                )}
-                
-                {step === 'result' && recommendation && selectedDecorItem && (
-                  <div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                      <div>
-                        <div className="aspect-video rounded-lg overflow-hidden mb-4">
-                          <img 
-                            src={roomImage?.preview} 
-                            alt="Your room" 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="bg-soft-beige/30 rounded-md p-4">
-                          <h3 className="text-lg font-serif mb-2">Recommended Placement</h3>
-                          <p className="text-warm-gray italic">"{recommendation.recommendedPlacement}"</p>
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <div className="mb-6">
-                          <div className="flex items-start">
-                            <div className="w-20 h-20 rounded-md overflow-hidden mr-4 flex-shrink-0">
+                    ) : (
+                      <div className="overflow-y-auto max-h-80 pr-2">
+                        {decorItems.map(item => (
+                          <div 
+                            key={item.id}
+                            className={`flex items-center p-3 rounded-md mb-2 cursor-pointer transition-all ${
+                              selectedDecorItem?.id === item.id 
+                                ? 'bg-accent/10 border border-accent' 
+                                : 'hover:bg-soft-beige/50 border border-transparent'
+                            }`}
+                            onClick={() => handleSelectItem(item)}
+                          >
+                            <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden mr-3">
                               <img 
-                                src={selectedDecorItem.imageUrl} 
-                                alt={selectedDecorItem.name} 
+                                src={item.imageUrl} 
+                                alt={item.name} 
                                 className="w-full h-full object-cover"
                               />
                             </div>
                             <div>
-                              <h3 className="font-serif text-lg">{selectedDecorItem.name}</h3>
-                              <div className="flex flex-wrap gap-1 my-2">
-                                {selectedDecorItem.styles.map(style => (
-                                  <span 
-                                    key={style} 
-                                    className="px-2 py-1 bg-soft-beige rounded-full text-xs"
-                                  >
-                                    {style}
-                                  </span>
-                                ))}
-                              </div>
+                              <h4 className="font-medium">{item.name}</h4>
+                              <p className="text-xs text-warm-gray">
+                                Style: {item.styles.join(', ')}
+                              </p>
                             </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="flex justify-between">
+                  <Button variant="outline" onClick={handleReset}>
+                    Back
+                  </Button>
+                  <Button 
+                    onClick={handleCheckCompatibility} 
+                    disabled={!selectedDecorItem}
+                  >
+                    Check Compatibility
+                  </Button>
+                </div>
+              </div>
+            )}
+            
+            {step === 'result' && recommendation && selectedDecorItem && (
+              <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                      <img 
+                        src={roomImage?.preview} 
+                        alt="Your room" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="bg-soft-beige/30 rounded-md p-4">
+                      <h3 className="text-lg font-serif mb-2">Recommended Placement</h3>
+                      <p className="text-warm-gray italic">"{recommendation.recommendedPlacement}"</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="mb-6">
+                      <div className="flex items-start">
+                        <div className="w-20 h-20 rounded-md overflow-hidden mr-4 flex-shrink-0">
+                          <img 
+                            src={selectedDecorItem.imageUrl} 
+                            alt={selectedDecorItem.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-serif text-lg">{selectedDecorItem.name}</h3>
+                          <div className="flex flex-wrap gap-1 my-2">
+                            {selectedDecorItem.styles.map(style => (
+                              <span 
+                                key={style} 
+                                className="px-2 py-1 bg-soft-beige rounded-full text-xs"
+                              >
+                                {style}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                        
-                        <div className="bg-white border border-soft-beige rounded-lg p-4 mb-6">
-                          <div className="flex justify-between items-center mb-3">
-                            <h3 className="font-serif">Compatibility Score</h3>
-                            <div className="text-xl font-bold text-accent">
-                              {recommendation.matchScore}%
-                            </div>
-                          </div>
-                          <div className="w-full bg-soft-beige rounded-full h-2.5 mb-4">
-                            <div 
-                              className="bg-accent h-2.5 rounded-full" 
-                              style={{ width: `${recommendation.matchScore}%` }}
-                            ></div>
-                          </div>
-                          <p className="text-warm-gray text-sm italic">
-                            {recommendation.reasonForScore}
-                          </p>
-                        </div>
-                        
-                        {recommendation.alternatives && recommendation.alternatives.length > 0 && (
-                          <div>
-                            <h3 className="font-serif mb-3">Alternative Suggestions</h3>
-                            <div className="grid grid-cols-2 gap-3">
-                              {recommendation.alternatives.map(alt => (
-                                <div 
-                                  key={alt.id} 
-                                  className="border border-soft-beige rounded-md overflow-hidden card-hover"
-                                >
-                                  <div className="h-32">
-                                    <img 
-                                      src={alt.imageUrl} 
-                                      alt={alt.name}
-                                      className="w-full h-full object-cover" 
-                                    />
-                                  </div>
-                                  <div className="p-3">
-                                    <h4 className="text-sm font-medium line-clamp-1">{alt.name}</h4>
-                                    <Button 
-                                      variant="outline" 
-                                      size="sm" 
-                                      className="w-full mt-2"
-                                      asChild
-                                    >
-                                      <Link to={`/decor/${alt.id}`}>View</Link>
-                                    </Button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                     
-                    <div className="flex justify-between">
-                      <Button variant="outline" onClick={handleReset}>
-                        Start Over
-                      </Button>
-                      <Button asChild>
-                        <Link to="/gallery">Browse More Items</Link>
-                      </Button>
+                    <div className="bg-white border border-soft-beige rounded-lg p-4 mb-6">
+                      <div className="flex justify-between items-center mb-3">
+                        <h3 className="font-serif">Compatibility Score</h3>
+                        <div className="text-xl font-bold text-accent">
+                          {recommendation.matchScore}%
+                        </div>
+                      </div>
+                      <div className="w-full bg-soft-beige rounded-full h-2.5 mb-4">
+                        <div 
+                          className="bg-accent h-2.5 rounded-full" 
+                          style={{ width: `${recommendation.matchScore}%` }}
+                        ></div>
+                      </div>
+                      <p className="text-warm-gray text-sm italic">
+                        {recommendation.reasonForScore}
+                      </p>
                     </div>
+                    
+                    {recommendation.alternatives && recommendation.alternatives.length > 0 && (
+                      <div>
+                        <h3 className="font-serif mb-3">Alternative Suggestions</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                          {recommendation.alternatives.map(alt => (
+                            <div 
+                              key={alt.id} 
+                              className="border border-soft-beige rounded-md overflow-hidden card-hover"
+                            >
+                              <div className="h-32">
+                                <img 
+                                  src={alt.imageUrl} 
+                                  alt={alt.name}
+                                  className="w-full h-full object-cover" 
+                                />
+                              </div>
+                              <div className="p-3">
+                                <h4 className="text-sm font-medium line-clamp-1">{alt.name}</h4>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="w-full mt-2"
+                                  asChild
+                                >
+                                  <Link to={`/decor/${alt.id}`}>View</Link>
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </>
+                </div>
+                
+                <div className="flex justify-between">
+                  <Button variant="outline" onClick={handleReset}>
+                    Start Over
+                  </Button>
+                  <Button asChild>
+                    <Link to="/gallery">Browse More Items</Link>
+                  </Button>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>
