@@ -89,6 +89,8 @@ const Gallery = () => {
   }, []);
   
   const filterItems = (itemsToFilter = items) => {
+    console.log('Filtering items with:', { activeTab, activeStyle, activeType, activeSubtype, searchTerm });
+    
     let result = [...itemsToFilter];
     
     // Filter by search term
@@ -113,10 +115,12 @@ const Gallery = () => {
       }
     }
     
+    console.log('Filtered results:', result);
     setFilteredItems(result);
   };
   
   const handleStyleChange = (value: string) => {
+    console.log('Style changed to:', value);
     setActiveStyle(value);
     setActiveTab('style');
     
@@ -124,12 +128,10 @@ const Gallery = () => {
     searchParams.set('style', value);
     searchParams.delete('type');
     setSearchParams(searchParams);
-    
-    // Apply filters
-    filterItems();
   };
   
   const handleTypeChange = (value: string) => {
+    console.log('Type changed to:', value);
     setActiveType(value);
     setActiveSubtype(null); // Reset subtype when changing main type
     setActiveTab('type');
@@ -138,27 +140,21 @@ const Gallery = () => {
     searchParams.set('type', value);
     searchParams.delete('style');
     setSearchParams(searchParams);
-    
-    // Apply filters
-    filterItems();
   };
   
   const handleSubtypeChange = (value: string | null) => {
+    console.log('Subtype changed to:', value);
     setActiveSubtype(value);
-    filterItems();
   };
   
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    filterItems();
   };
   
   const handleTabChange = (value: 'style' | 'type') => {
+    console.log('Tab changed to:', value);
     setActiveTab(value);
-    
-    // Apply appropriate filters based on the active tab
-    filterItems();
     
     // Update URL parameters
     if (value === 'style') {
@@ -222,6 +218,7 @@ const Gallery = () => {
                       variant={activeStyle === style.id && activeTab === 'style' ? "default" : "outline"}
                       className="justify-start"
                       onClick={() => handleStyleChange(style.id)}
+                      type="button"
                     >
                       {style.name}
                     </Button>
@@ -274,8 +271,9 @@ const Gallery = () => {
                   setActiveTab('style');
                   setSearchTerm('');
                   setSearchParams({});
-                  filterItems();
+                  setTimeout(() => filterItems(), 0);
                 }}
+                type="button"
               >
                 Clear Filters
               </Button>
@@ -306,6 +304,7 @@ const Gallery = () => {
                   size="sm"
                   onClick={() => handleStyleChange(style.id)}
                   className="whitespace-nowrap"
+                  type="button"
                 >
                   {style.name}
                 </Button>
@@ -382,9 +381,10 @@ const Gallery = () => {
                       setActiveStyle('all');
                       setActiveType('all');
                       setActiveSubtype(null);
-                      filterItems();
+                      setTimeout(() => filterItems(), 0);
                     }}
                     className="mt-4"
+                    type="button"
                   >
                     Clear Filters
                   </Button>
@@ -404,12 +404,13 @@ const Gallery = () => {
                       <Button 
                         variant={activeType === type.id ? "default" : "outline"} 
                         className="w-full justify-between"
+                        type="button"
                       >
                         {type.name}
                         <Filter className="h-4 w-4 ml-2" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-48">
+                    <DropdownMenuContent align="start" className="w-48 bg-white">
                       <DropdownMenuItem onClick={() => {
                         handleTypeChange(type.id);
                         handleSubtypeChange(null);
@@ -512,9 +513,10 @@ const Gallery = () => {
                       setActiveStyle('all');
                       setActiveType('all');
                       setActiveSubtype(null);
-                      filterItems();
+                      setTimeout(() => filterItems(), 0);
                     }}
                     className="mt-4"
+                    type="button"
                   >
                     Clear Filters
                   </Button>
