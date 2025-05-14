@@ -1,4 +1,3 @@
-
 // This is a simulated AI service for decor recommendations
 // In a real application, this would connect to a backend AI service
 
@@ -19,6 +18,8 @@ export interface DecorItem {
   price?: number;
   styles: string[];
   colors: string[];
+  type: string;
+  subtype?: string;
   dimensions?: {
     width: number;
     height: number;
@@ -44,6 +45,8 @@ const decorItems: DecorItem[] = [
     price: 299,
     styles: ['vintage', 'traditional', 'art deco'],
     colors: ['gold', 'brass'],
+    type: 'lighting',
+    subtype: 'Floor Lamp',
     dimensions: { width: 30, height: 160, depth: 30 },
     suitableRooms: ['living', 'bedroom', 'office']
   },
@@ -55,6 +58,8 @@ const decorItems: DecorItem[] = [
     price: 599,
     styles: ['mid-century modern', 'minimalist'],
     colors: ['beige', 'brown'],
+    type: 'seating',
+    subtype: 'Armchair',
     dimensions: { width: 70, height: 85, depth: 75 },
     suitableRooms: ['living', 'office']
   },
@@ -66,6 +71,8 @@ const decorItems: DecorItem[] = [
     price: 189,
     styles: ['industrial', 'rustic', 'modern'],
     colors: ['brown', 'black'],
+    type: 'storage',
+    subtype: 'Shelf',
     dimensions: { width: 100, height: 90, depth: 25 },
     suitableRooms: ['living', 'bedroom', 'office', 'dining']
   },
@@ -77,6 +84,8 @@ const decorItems: DecorItem[] = [
     price: 129,
     styles: ['bohemian', 'eclectic', 'natural'],
     colors: ['beige', 'cream', 'white'],
+    type: 'walldecor',
+    subtype: 'Wall Hanging',
     dimensions: { width: 80, height: 120, depth: 2 },
     suitableRooms: ['living', 'bedroom', 'dining']
   },
@@ -88,6 +97,8 @@ const decorItems: DecorItem[] = [
     price: 349,
     styles: ['scandinavian', 'minimalist', 'modern'],
     colors: ['light brown', 'black'],
+    type: 'tables',
+    subtype: 'Coffee Table',
     dimensions: { width: 120, height: 45, depth: 60 },
     suitableRooms: ['living']
   }
