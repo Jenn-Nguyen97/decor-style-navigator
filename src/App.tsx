@@ -19,6 +19,11 @@ import Admin from "./pages/Admin";
 import AIDesign from "./pages/AIDesign";
 import RoomUpload from "./pages/RoomUpload";
 import NotFound from "./pages/NotFound";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminBlog from "./pages/AdminBlog";
+import AdminGallery from "./pages/AdminGallery";
+import AdminFilters from "./pages/AdminFilters";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +45,11 @@ const App = () => (
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin-blog" element={<AdminBlog />} />
+                <Route path="/admin-gallery" element={<AdminGallery />} />
+                <Route path="/admin-filters" element={<AdminFilters />} />
+                <Route path="/admin-analytics" element={<AdminAnalytics />} />
                 <Route path="/ai-design" element={<AIDesign />} />
                 <Route path="/room-upload" element={<RoomUpload />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

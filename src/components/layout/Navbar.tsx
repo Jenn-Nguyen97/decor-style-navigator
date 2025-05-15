@@ -12,7 +12,10 @@ import {
   Heart, 
   FileText, 
   Home, 
-  Image 
+  Image,
+  Edit,
+  Filter,
+  BarChart2 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +25,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuGroup
 } from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
@@ -78,14 +82,58 @@ export default function Navbar() {
             Upload Room
           </Link>
           {hasRole(['admin']) && (
-            <Link
-              to="/admin"
-              className={`font-medium hover:text-terracotta transition-colors ${
-                isActive('/admin') ? 'text-terracotta' : 'text-foreground'
-              }`}
-            >
-              Admin
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={`font-medium hover:text-terracotta transition-colors ${
+                    location.pathname.includes('/admin') ? 'text-terracotta' : 'text-foreground'
+                  }`}
+                >
+                  Admin
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>Admin Tools</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/admin-dashboard" className="flex items-center cursor-pointer">
+                    <Home className="mr-2 h-4 w-4" />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/admin-blog" className="flex items-center cursor-pointer">
+                    <Edit className="mr-2 h-4 w-4" />
+                    <span>Blog Management</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/admin-gallery" className="flex items-center cursor-pointer">
+                    <Image className="mr-2 h-4 w-4" />
+                    <span>Gallery Management</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/admin-filters" className="flex items-center cursor-pointer">
+                    <Filter className="mr-2 h-4 w-4" />
+                    <span>Filter Management</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/admin-analytics" className="flex items-center cursor-pointer">
+                    <BarChart2 className="mr-2 h-4 w-4" />
+                    <span>Analytics</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/admin" className="flex items-center cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Legacy Admin Panel</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
 
@@ -137,6 +185,20 @@ export default function Navbar() {
                     <span>Account Settings</span>
                   </Link>
                 </DropdownMenuItem>
+                {hasRole(['admin']) && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>Admin</DropdownMenuLabel>
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin-dashboard" className="flex items-center cursor-pointer">
+                          <Home className="mr-2 h-4 w-4" />
+                          <span>Admin Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout} className="flex items-center cursor-pointer text-red-600">
                   <LogOut className="mr-2 h-4 w-4" />
@@ -197,13 +259,46 @@ export default function Navbar() {
               Upload Room
             </Link>
             {hasRole(['admin']) && (
-              <Link
-                to="/admin"
-                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-soft-beige"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Admin
-              </Link>
+              <>
+                <div className="px-3 py-2 text-sm font-semibold text-warm-gray">
+                  Admin
+                </div>
+                <Link
+                  to="/admin-dashboard"
+                  className="block px-3 py-2 rounded-md text-base font-medium pl-6 hover:bg-soft-beige"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/admin-blog"
+                  className="block px-3 py-2 rounded-md text-base font-medium pl-6 hover:bg-soft-beige"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blog Management
+                </Link>
+                <Link
+                  to="/admin-gallery"
+                  className="block px-3 py-2 rounded-md text-base font-medium pl-6 hover:bg-soft-beige"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Gallery Management
+                </Link>
+                <Link
+                  to="/admin-filters"
+                  className="block px-3 py-2 rounded-md text-base font-medium pl-6 hover:bg-soft-beige"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Filter Management
+                </Link>
+                <Link
+                  to="/admin-analytics"
+                  className="block px-3 py-2 rounded-md text-base font-medium pl-6 hover:bg-soft-beige"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Analytics
+                </Link>
+              </>
             )}
             {!user ? (
               <>
