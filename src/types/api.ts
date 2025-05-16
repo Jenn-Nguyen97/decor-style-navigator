@@ -19,6 +19,7 @@ export interface AuthResponse {
 
 // Product Types
 export interface Product {
+  id?: string; // Added ID field which was missing
   name: string;
   description: string;
   images: string[];

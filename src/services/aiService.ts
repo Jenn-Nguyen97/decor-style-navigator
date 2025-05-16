@@ -1,7 +1,8 @@
+
 // AI service for decor recommendations
 
 import { apiRequest } from './api';
-import { DecorSuggestion, DecorSuggestionRequest } from '@/types/api';
+import { DecorSuggestion, DecorSuggestionRequest, Product } from '@/types/api';
 
 // Type definitions from the existing aiService.ts file
 export interface Room {
@@ -151,15 +152,45 @@ export function mapProductToDecorItem(product: Product): DecorItem {
   };
 }
 
-// Map to existing app functions
+// Get recommendations for a decor item in a room
 export const getDecorRecommendations = async (
   roomId: string,
   decorItemId: string
 ): Promise<AIRecommendation> => {
-  // Keep existing implementation for now
-  // ... keep existing code
+  // Mock implementation until API supports this feature
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        matchScore: Math.floor(Math.random() * 41) + 60, // Random score between 60-100
+        recommendedPlacement: [
+          "Place this item on the side wall for optimal visual balance",
+          "Position near the window to capture natural light",
+          "This would look perfect as a centerpiece in your room",
+          "Place against the neutral wall to create a focal point"
+        ][Math.floor(Math.random() * 4)],
+        reasonForScore: [
+          "The colors complement your existing decor beautifully",
+          "The style matches your room's aesthetic, but the colors are slightly contrasting",
+          "This piece fits well with your room's character and enhances the space",
+          "The proportions and style work well with your room layout"
+        ][Math.floor(Math.random() * 4)],
+        alternatives: []
+      });
+    }, 1500);
+  });
 };
 
+// Get all products from API
+export const getAllProducts = async (): Promise<Product[]> => {
+  try {
+    return apiRequest<Product[]>('/products', 'GET');
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    throw error;
+  }
+};
+
+// Get all decor items
 export const getAllDecorItems = async (): Promise<DecorItem[]> => {
   try {
     const products = await getAllProducts();
@@ -242,9 +273,11 @@ export const getAllDecorItems = async (): Promise<DecorItem[]> => {
   }
 };
 
+// Get decor item by ID
 export const getDecorItemById = async (id: string): Promise<DecorItem | undefined> => {
-  // Keep existing implementation
-  // ... keep existing code
+  // For now, fetch all items and find by id
+  const allItems = await getAllDecorItems();
+  return allItems.find(item => item.id === id);
 };
 
 // Export other functions that might be used elsewhere
